@@ -1,0 +1,5 @@
+---
+- hosts: proxmox_servers
+  roles:
+    - role: tailscale
+    - role: proxmox

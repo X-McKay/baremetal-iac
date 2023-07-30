@@ -1,0 +1,38 @@
+---
+- name: Add Tailscale repository key
+  become: yes
+  ansible.builtin.apt_key:
+    url: https://pkgs.tailscale.com/stable/ubuntu/focal.gpg
+    state: present
+
+- name: Add Tailscale repository
+  become: yes
+  apt_repository:
+    repo: "deb https://pkgs.tailscale.com/stable/ubuntu focal main"
+    state: present
+
+- name: Install Tailscale package
+  become: yes
+  apt:
+    name: tailscale
+    state: present
+
+- name: Initialize Tailscale and Join existing Tailscale network
+  become: yes
+  command: tailscale up --authkey={{ pre_shared_key }}
+
+- name: Display Tailscale status
+  become: yes
+  command: tailscale status
+  register: tailscale_status
+  changed_when: false
+
+- name: Display Tailscale authentication key
+  become: yes
+  debug:
+    var: tailscale_status.stdout_lines[0]
+
+- name: Display Tailscale IP address
+  become: yes
+  debug:
+    var: tailscale_status.stdout_lines[1]

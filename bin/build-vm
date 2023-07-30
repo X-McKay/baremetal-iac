@@ -1,0 +1,25 @@
+#!/bin/bash
+
+PURPLE='\033[0;35m'
+END='\033[0m'
+
+PROJECT_PATH=$(git rev-parse --show-toplevel)
+TF_FOLDER="${PROJECT_PATH}/terraform"
+TF_VARS_FILE="terraform.tf.vars"
+
+echo ""
+echo -e "${PURPLE}Changing directory to Terraform folder: ${TF_FOLDER}${END}"
+cd "${TF_FOLDER}" || exit
+
+echo ""
+echo -e "${PURPLE}Initializing Terraform...${END}"
+terraform init -upgrade .
+echo ""
+echo -e "${PURPLE}Validating Terraform files and templates${END}"
+terraform validate .
+
+echo ""
+echo -e "${PURPLE}Applying Terraform templates${END}"
+terraform apply -var-file="${TF_VARS_FILE}"
+
+cd "${PROJECT_PATH}" || exit

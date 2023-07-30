@@ -1,0 +1,2 @@
+[proxmox_servers]
+proxmox1 ansible_host=192.168.86.34

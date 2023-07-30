@@ -1,0 +1,39 @@
+---
+- name: "Create svc group"
+  become: true
+  group:
+    name: svc
+    state: present
+
+- name: "Add svc user"
+  become: true
+  user:
+    name: svc
+    shell: /bin/bash
+    groups: svc
+    password: {{ svc_password }}
+  register: create_user
+
+- name: "Add Proxmox User"
+  become: true
+  command: "pveum useradd svc@pam -comment 'Service Account User'"
+  ignore_errors: True
+  when: create_user.changed
+
+- name: "Add Proxmox User Group" 
+  become: true
+  command: "pveum groupadd svc -comment 'Service Account Group'"
+  ignore_errors: True
+  when: create_user.changed
+
+- name: "Add Proxmox Group Role"
+  become: true
+  command: "pveum aclmod / -group svc -role Administrator"
+  ignore_errors: True
+  when: create_user.changed
+
+- name: "Add Proxmox User to Group"
+  become: true
+  command: "pveum usermod svc@pam -group svc"
+  ignore_errors: True
+  when: create_user.changed

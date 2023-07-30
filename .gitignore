@@ -1,0 +1,70 @@
+# General
+/scratch
+
+# Environment ignores
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Python ignores
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ansible ignores
+*/keys/*
+*/output/*
+*.retry
+**/group_vars/all.yml
+
+# Hashicorp ignores
+crash.log
+crash.*.log
+
+# Terraform ignores
+**/.terraform/*
+.terraform.lock.hcl
+.terraformrc
+terraform.rc
+*.tfvars
+*.tfstate
+*.tfstate.*
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Packer ignores
+packer_cache/
+*.auto.pkrvars.hcl
+*.pkrvars.hcl
+*.box
+images/*
+
+# VSCode ignores
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+*.vsix

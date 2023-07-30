@@ -1,0 +1,2 @@
+[ubuntu]
+server1 ansible_host=192.168.86.36

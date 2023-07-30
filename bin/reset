@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd packer/output
+
+rm http/user-data
+rm http/meta-data
+rm ssh_keys/id_ed25519_ubuntu_packer
+rm ssh_keys/id_ed25519_ubuntu_packer.pub

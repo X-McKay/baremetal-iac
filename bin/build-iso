@@ -1,0 +1,25 @@
+#!/bin/bash
+
+PURPLE='\033[0;35m'
+END='\033[0m'
+
+PROJECT_PATH=$(git rev-parse --show-toplevel)
+PACKER_FOLDER="${PROJECT_PATH}/packer"
+PACKER_TEMPLATE="ubuntu.pkr.hcl"
+
+echo ""
+echo -e "${PURPLE}Changing directory to Packer folder: ${PACKER_FOLDER}${END}"
+cd "${PACKER_FOLDER}" || exit
+
+echo ""
+echo -e "${PURPLE}Initializing Packer...${END}"
+packer init -upgrade .
+echo ""
+echo -e "${PURPLE}Validating Packer files and templates${END}"
+packer validate .
+
+echo ""
+echo -e "${PURPLE}Building Packer files and templates${END}"
+packer build .
+
+cd "${PROJECT_PATH}" || exit
