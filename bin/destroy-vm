@@ -1,0 +1,16 @@
+#!/bin/bash
+
+PURPLE='\033[0;35m'
+END='\033[0m'
+
+PROJECT_PATH=$(git rev-parse --show-toplevel)
+TF_FOLDER="${PROJECT_PATH}/terraform"
+TF_VARS_FILE="terraform.tfvars"
+
+echo ""
+echo -e "${PURPLE}Changing directory to Terraform folder: ${TF_FOLDER}${END}"
+cd "${TF_FOLDER}" || exit
+
+echo ""
+echo -e "${PURPLE}Destroying Terraform resources${END}"
+terraform destroy

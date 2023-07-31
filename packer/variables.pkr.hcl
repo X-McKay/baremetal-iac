@@ -52,6 +52,7 @@ variable "template_name" {
   type    = string
   default = "packer-ubuntu"
 }
+
 variable "template_description" {
   type    = string
   default = "Ubuntu 20.04 template built with packer"
@@ -101,6 +102,7 @@ variable "template_scsi_controller" {
   type    = string
   default = "virtio-scsi-pci"
 }
+
 variable "template_qemu_agent" {
   type    = bool
   default = true

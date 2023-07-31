@@ -1,13 +1,9 @@
-# Ubuntu Server Focal Docker
-# ---
 # Packer Template to create an Ubuntu Server on Proxmox
 
-## Dummy source that enables us to run the ansible pre-provisioning.
 source "null" "ansible-pre-provisioning" {
   communicator = "none"
 }
 
-## Run ansible pre-provisioning playbook.
 build {
   sources = ["source.null.ansible-pre-provisioning"]
   provisioner "ansible" {
@@ -19,7 +15,6 @@ build {
   }
 }
 
-## Define proxmox Ubuntu template.
 source "proxmox-iso" "ubuntu" {
   username                 = "${var.proxmox_username}"
   password                 = "${var.proxmox_password}"
@@ -66,7 +61,6 @@ source "proxmox-iso" "ubuntu" {
   ssh_password = "${var.template_ssh_password}"
 }
 
-# Build proxmox Ubuntu template and wait for cloud-init to finish.
 build {
   sources = ["source.proxmox-iso.ubuntu"]
 

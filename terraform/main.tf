@@ -27,8 +27,9 @@ resource "proxmox_vm_qemu" "ubuntu-vm" {
     depends_on = [
     tls_private_key.virtual_machine_keys
   ]
-  name = "ubuntutf"
-  qemu_os             = "other"
+  count = 2
+  name = "${var.proxmox_host}-${count.index + 1}"
+  qemu_os = "other"
   target_node = var.proxmox_host
   sshkeys = tls_private_key.virtual_machine_keys.public_key_openssh
 
