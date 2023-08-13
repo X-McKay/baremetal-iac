@@ -13,7 +13,7 @@ cd "${TF_FOLDER}" || exit
 
 echo ""
 echo -e "${PURPLE}Initializing Terraform...${END}"
-terraform init -upgrade .
+terraform init
 echo ""
 echo -e "${PURPLE}Validating Terraform files and templates${END}"
 terraform validate .

@@ -1,67 +1,30 @@
-terraform {
-  required_providers {
-    proxmox = {
-      source = "telmate/proxmox"
-      version = "2.9.14"
-    }
-    tls = {
-      source  = "hashicorp/tls"
-      version = "3.3.0"
-    }
-  }
+module "proxmox" {
+  source = "./proxmox"
+  # ssh_key       = var.proxmox_ssh_key
+  proxmox_host  = var.proxmox_host
+  template_name = var.proxmox_template_name
+  nic_name      = var.proxmox_nic_name
+  # vlan_num      = var.proxmox_vlan_num
+  api_url      = var.proxmox_api_url
+  token_secret = var.proxmox_token_secret
+  token_id     = var.proxmox_token_id
 }
 
-provider "proxmox" {
-  pm_api_url = var.api_url
-  pm_api_token_id = var.token_id
-  pm_api_token_secret = var.token_secret
-  pm_tls_insecure = true
+module "tailscale" {
+  source        = "./tailscale"
+  api_key       = var.tailscale_api_key
+  tailnet       = var.tailscale_tailnet
+  nas_east_name = var.tailscale_nas_east_name
+  nas_west_name = var.tailscale_nas_west_name
+  client_prefix = var.tailscale_client_prefix
 }
 
-resource "tls_private_key" "virtual_machine_keys" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
+module "cloudflare" {
+  source  = "./cloudflare"
+  api_key = var.cloudflare_api_key
+  email   = var.cloudflare_email
 
-resource "proxmox_vm_qemu" "ubuntu-vm" {
-    depends_on = [
-    tls_private_key.virtual_machine_keys
-  ]
-  count = 2
-  name = "${var.proxmox_host}-${count.index + 1}"
-  qemu_os = "other"
-  target_node = var.proxmox_host
-  sshkeys = tls_private_key.virtual_machine_keys.public_key_openssh
-
-  clone = var.template_name
-  full_clone  = "true"
-
-  agent = 1
-  os_type = "ubuntu"
-  cores = 2
-  sockets = 1
-  cpu = "host"
-  memory = 2048
-  scsihw = "virtio-scsi-pci"
-  bootdisk = "scsi0"
-
-  disk {
-    size = "32G"
-    type = "scsi"
-    storage = "local-lvm"
-    discard = "on"
-    iothread = 0
-  }
-
-  network {
-    model = "virtio"
-    bridge = var.nic_name
-  }
-
-
-  lifecycle {
-    ignore_changes = [
-      network,
-    ]
-  }
+  nomad_client_ips   = module.tailscale.lab_clients
+  nas_east_server_ip = module.tailscale.nas_east_server
+  nas_west_server_ip = module.tailscale.nas_west_server
 }

@@ -17,7 +17,9 @@ bin/build-iso
 
 # Provision Proxmox VMs using Terraform
 
-Provision n virtual machines on a Proxmox host using Terraform.
+- Provision n virtual machines on a Proxmox host using Terraform.
+- Connect vms to Tailscale network
+- Create CloudFlare records for vms
 
 ```
 bin/build-vm
@@ -33,4 +35,5 @@ bin/destroy-vm
 
 # Credit / Inspiration
 
+[David S. Bonds's homad repository](https://github.com/davidsbond/homad/tree/master)
 [Justin P.'s packer-proxmox-ubuntu2004 repository](https://github.com/justin-p/packer-proxmox-ubuntu2004/tree/main)

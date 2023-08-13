@@ -1,4 +1,5 @@
 terraform 1.5.3
+tflint 0.47.0
 packer 1.9.2
 python 3.10.6
 poetry 1.4.1

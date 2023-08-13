@@ -3,7 +3,7 @@ fail_fast: true
 minimum_pre_commit_version: "2.6.0"
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.1.0
+    rev: v4.4.0
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
@@ -15,11 +15,14 @@ repos:
       - id: check-vcs-permalinks
       - id: check-xml
       - id: check-yaml
-  - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.31.0
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.22
     hooks:
-      - id: terraform_fmt
-      - id: terraform_validate
+      - id: tflint
+        args:
+          - "--module"
+      - id: terraform-fmt
+      - id: terraform-validate
   - repo: https://github.com/psf/black
     rev: 23.7.0
     hooks:
@@ -29,6 +32,6 @@ repos:
     hooks:
       - id: validate_manifest
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.280
+    rev: v0.0.284
     hooks:
     -   id: ruff
